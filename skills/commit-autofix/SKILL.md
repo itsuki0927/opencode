@@ -16,74 +16,86 @@ description: |
 xcommit
 ```
 
-捕获命令的 stdout 和 stderr。
+Capture stdout and stderr from the command.
 
 ### Step 2: Handle Result
 
-**如果成功 (exit code 0)**:
-进入 Step 4 输出 Summary。
+**If successful (exit code 0)**:
+Go to Step 4 to output Summary, then **auto-push** (Step 5a).
 
-**如果失败**:
+**If failed**:
 
-1. 显示通知：
+1. Display notification:
    ```
-   ⚠️ 检测到错误，正在进行修复中...
+   ⚠️ Errors detected, attempting to fix...
    ```
-2. 将完整错误输出直接交给 AI 分析
-3. AI 读取相关文件并修复（重点关注 .ts/.tsx 文件）
-4. 修复后 `git add` 修改的文件
+2. Pass the complete error output to AI for analysis
+3. AI reads related files and fixes issues (focus on .ts/.tsx files)
+4. After fixing, `git add` the modified files
 
-### Step 3: Retry (最多 2 次)
+### Step 3: Retry (max 2 times)
 
-重新执行 `xcommit`，重复 Step 2。
+Re-execute `xcommit`, repeat Step 2.
 
 ### Step 4: Output Summary
 
-**成功时**:
+**On success**:
 
 ```
-✅ Commit 成功！
+✅ Commit successful!
 
 Summary:
 - Commit: <hash>
 - Message: <commit message>
-- 修复的文件: <list> (如有)
+- Fixed files: <list> (if any)
 ```
 
-**失败时**:
+**On failure**:
 
 ```
-❌ Commit 失败
+❌ Commit failed
 
 Summary:
-- 尝试次数: 3
-- 剩余错误:
+- Attempts: 3
+- Remaining errors:
   <error output>
-- 建议: 请手动检查上述错误
+- Suggestion: Please manually check the above errors
 ```
 
-### Step 5: Ask Push to Remote
+### Step 5: Push to Remote
 
-**仅在 commit 成功后执行此步骤。**
+**Only execute this step after commit succeeds.**
 
-询问用户是否要 push 到远程仓库：
+#### Step 5a: Auto-Push (First attempt succeeded without fixes)
+
+If xcommit succeeded on the **first attempt** (no errors, no fixes needed):
+
+1. Automatically execute `git push`
+2. Display push result
+3. No confirmation needed
+
+#### Step 5b: Ask Push (Succeeded after fixing errors)
+
+If xcommit succeeded **after fixing errors** (retry was needed):
+
+Ask user whether to push to remote:
 
 ```
-🚀 是否要将此 commit push 到远程仓库？
+🚀 Would you like to push this commit to remote?
 ```
 
-**如果用户确认 push**:
+**If user confirms push**:
 
-1. 执行 `git push`
-2. 显示 push 结果
+1. Execute `git push`
+2. Display push result
 
-**如果用户拒绝**:
-结束工作流。
+**If user declines**:
+End workflow.
 
 ## Guardrails
 
-- 最多重试 2 次（共 3 次尝试）
-- 不修复单元测试失败
-- 不使用 --no-verify
-- 重点关注 TypeScript/TypeScriptReact 文件
-- Push 操作需要用户明确确认
+- Maximum 2 retries (3 total attempts)
+- Do not fix unit test failures
+- Do not use --no-verify
+- Focus on TypeScript/TypeScriptReact files
+- Auto-push on first-attempt success; ask confirmation only after error fixes
