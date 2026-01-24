@@ -109,6 +109,10 @@
       "headers": {
         "Authorization": "Bearer ts_f0cc3818bb2008621d7de22ea34c5b4ab533bb8e8625ea12172a732e7e0581aa"
       }
+    },
+    "notion": {
+      "type": "remote",
+      "url": "https://mcp.notion.com/mcp"
     }
   }
 }
