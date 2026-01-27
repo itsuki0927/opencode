@@ -8,3 +8,4 @@ antigravity-logs/
 .sisyphus/
 log
 .playwright-cli
+.gitignore
