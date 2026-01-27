@@ -1,0 +1,10 @@
+node_modules
+package.json
+bun.lock
+antigravity-accounts.json
+antigravity-signature-cache.json
+antigravity-logs/
+
+.sisyphus/
+log
+.playwright-cli

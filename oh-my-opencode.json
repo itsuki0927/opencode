@@ -2,14 +2,21 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
   "google_auth": false,
   "agents": {
+    "oracle": {
+      "model": "openai/gpt-5.2",
+      "variant": "high"
+    },
+    "explore": {
+      "model": "openai/gpt-5.2"
+    },
     "sisyphus": {
-      "model": "google/antigravity-claude-opus-4-5-thinking"
+      "model": "google/antigravity-claude-sonnet-4-5"
     },
     "librarian": {
       "model": "google/antigravity-claude-sonnet-4-5"
     },
     "multimodal-looker": {
-      "model": "google/antigravity-gemini-3-flash"
+      "model": "google/gemini-3-flash"
     },
     "frontend-ui-ux-engineer": {
       "model": "google/antigravity-gemini-3-pro"
@@ -18,13 +25,54 @@
       "model": "google/antigravity-gemini-3-flash"
     },
     "metis": {
-      "model": "google/antigravity-claude-sonnet-4-5"
+      "model": "google/antigravity-claude-opus-4-5-thinking",
+      "variant": "max"
     },
     "momus": {
-      "model": "google/antigravity-claude-sonnet-4-5"
+      "model": "openai/gpt-5.2",
+      "variant": "medium"
     },
     "atlas": {
       "model": "google/antigravity-claude-sonnet-4-5"
+    },
+    "prometheus": {
+      "model": "google/antigravity-claude-opus-4-5-thinking",
+      "variant": "max"
+    }
+  },
+  "tmux": {
+    "enabled": true,
+    "layout": "main-vertical",
+    "main_pane_size": 60,
+    "main_pane_min_width": 120,
+    "agent_pane_min_width": 40
+  },
+  "experimental": {
+    "auto_resume": true
+  },
+  "categories": {
+    "visual-engineering": {
+      "model": "google/antigravity-gemini-3-pro"
+    },
+    "ultrabrain": {
+      "model": "openai/gpt-5.2-codex",
+      "variant": "xhigh"
+    },
+    "artistry": {
+      "model": "google/antigravity-gemini-3-pro",
+      "variant": "max"
+    },
+    "quick": {
+      "model": "openai/gpt-5.2"
+    },
+    "unspecified-low": {
+      "model": "google/antigravity-claude-sonnet-4-5"
+    },
+    "unspecified-high": {
+      "model": "google/antigravity-claude-sonnet-4-5"
+    },
+    "writing": {
+      "model": "google/antigravity-gemini-3-flash"
     }
   }
 }
