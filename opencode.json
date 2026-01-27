@@ -135,6 +135,16 @@
       "oauth": {},
       "enabled": false
     },
+    "emo": {
+      "type": "local",
+      "command": [
+        "npx",
+        "--registry",
+        "https://bnpm.byted.org",
+        "-y",
+        "@byted/emo-mcp-server@latest"
+      ]
+    },
     "bytedance-mcp-bitsai_quoraid": {
       "type": "local",
       "command": [
