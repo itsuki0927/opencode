@@ -9,3 +9,4 @@ antigravity-logs/
 log
 .playwright-cli
 .gitignore
+antigravity-accounts.json.*.tmp
