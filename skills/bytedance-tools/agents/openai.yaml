@@ -1,0 +1,4 @@
+interface:
+  display_name: "ByteDance Tools Router"
+  short_description: "Route bytedcli tasks to domain skills"
+  default_prompt: "Use $bytedance-tools to run bytedcli tasks and route to the right sub-skill."

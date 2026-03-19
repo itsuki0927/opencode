@@ -1,0 +1,4 @@
+interface:
+  display_name: "ByteDance TCC"
+  short_description: "Manage TCC namespaces/configs via bytedcli"
+  default_prompt: "Use $bytedance-tcc to list, get, or deploy configs."

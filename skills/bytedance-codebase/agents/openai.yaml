@@ -1,0 +1,4 @@
+interface:
+  display_name: "ByteDance Codebase"
+  short_description: "Codebase MR/repo/diff/file/CI via bytedcli"
+  default_prompt: "Use $bytedance-codebase to inspect a Codebase repo/MR or diagnose CI failures."

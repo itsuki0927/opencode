@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+# 获取当前脚本所在目录
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# 直接使用 python3 运行 (几乎所有环境都有)
+exec python3 "$SCRIPT_DIR/scripts/index.py" "$@"

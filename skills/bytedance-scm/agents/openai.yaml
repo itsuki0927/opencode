@@ -1,0 +1,4 @@
+interface:
+  display_name: "ByteDance SCM"
+  short_description: "SCM repos/builds/logs via bytedcli"
+  default_prompt: "Use $bytedance-scm to search repos or fetch build logs."
