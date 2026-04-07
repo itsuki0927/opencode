@@ -27,7 +27,19 @@ const PROJECT_PRESETS = {
 const DEFAULTS = {
   project: 'creativeCue',
   lane: 'test',
-  site: undefined
+  site: undefined,
+  env: 'cue_agent'
+};
+
+const DEPLOY_ENV_PRESETS = {
+  cue_agent: {
+    aliases: ['cue_agent', 'cue-agent', 'ppe_cue_agent'],
+    deployEnv: 'ppe_cue_agent'
+  },
+  symphonyMockSse: {
+    aliases: ['symphony_mock_sse', 'symphony-mock-sse', 'ppe_symphony_mock_sse'],
+    deployEnv: 'ppe_symphony_mock_sse'
+  }
 };
 
 function getProjectPreset(projectKey) {
@@ -46,6 +58,38 @@ function findProjectKey(input) {
   throw new Error(`Unknown project: ${input}`);
 }
 
+function findEnvKey(input) {
+  const normalized = input.trim().toLowerCase();
+
+  for (const [key, preset] of Object.entries(DEPLOY_ENV_PRESETS)) {
+    if (key.toLowerCase() === normalized || preset.aliases.includes(normalized)) {
+      return key;
+    }
+  }
+
+  if (/^ppe_[a-z0-9_]+$/i.test(normalized)) {
+    return normalized;
+  }
+
+  throw new Error(`Unknown env: ${input}`);
+}
+
+function getEnvSettingMap(envKey) {
+  const preset = DEPLOY_ENV_PRESETS[envKey];
+
+  if (!preset) {
+    return {
+      env: envKey,
+      deployEnv: envKey
+    };
+  }
+
+  return {
+    env: envKey,
+    deployEnv: preset.deployEnv
+  };
+}
+
 function printUsage() {
   console.log(`Usage:
   node /Users/bytedance/.config/opencode/skills/multi-project-bits-task/scripts/create-bits-rd-task.mjs <meego-or-url> [title-override] [--create]
@@ -57,6 +101,7 @@ Options:
   --branch <value>        Override branch, default from current git branch
   --developer <email>     Override developer email, default from git config user.email
   --lane <value>          Override lane, default: ${DEFAULTS.lane}
+  --env <value>           Environment alias or raw ppe_* env; maps to create lane, default: ${DEFAULTS.env}
   --from-dev-id <value>   Override template dev task ID, default from selected project preset
   --service <value>       Override service/project name, default from selected project preset
   --service-type <value>  Override service type, default from selected project preset
@@ -69,6 +114,14 @@ Projects:
   creativeCue      -> aliases: creative cue, creative-cue, cue
   aiEditorVibe     -> aliases: ai editor vibe, ai-editor-vibe, editor vibe, vibe
   creativeBffI18n  -> aliases: creative-bff-i18n, creative bff i18n, bff i18n, creative bff
+
+Deploy envs:
+  cue_agent        -> aliases: cue_agent, cue-agent, ppe_cue_agent
+  symphonyMockSse  -> aliases: symphony_mock_sse, symphony-mock-sse, ppe_symphony_mock_sse
+  raw ppe env      -> examples: ppe_cue_lsl_test, ppe_demo_env
+
+Note:
+  --env is a convenience input. The script maps it to the BITS create --lane value.
 `);
 }
 
@@ -80,6 +133,8 @@ function parseArgs(argv) {
     branch: '',
     developer: '',
     lane: DEFAULTS.lane,
+    laneSpecified: false,
+    env: DEFAULTS.env,
     fromDevId: '',
     service: '',
     serviceType: '',
@@ -140,6 +195,10 @@ function parseArgs(argv) {
           break;
         case '--lane':
           options.lane = next;
+          options.laneSpecified = true;
+          break;
+        case '--env':
+          options.env = findEnvKey(next);
           break;
         case '--from-dev-id':
           options.fromDevId = next;
@@ -196,6 +255,8 @@ function getResolvedConfig(options) {
   const service = options.service || preset.service;
   const fromDevId = options.fromDevId || preset.fromDevId;
   const serviceType = options.serviceType || preset.serviceType;
+  const envConfig = getEnvSettingMap(options.env);
+  const lane = options.laneSpecified ? options.lane : envConfig.deployEnv;
 
   if (!options.meego) {
     throw new Error('Meego is required. Pass it as the first positional arg or with --meego.');
@@ -227,7 +288,9 @@ function getResolvedConfig(options) {
     title,
     branch,
     developer,
-    lane: options.lane,
+    lane,
+    env: envConfig.env,
+    deployEnv: envConfig.deployEnv,
     fromDevId,
     service,
     serviceType,
@@ -313,6 +376,8 @@ function printSummary(config, output) {
         project: config.project,
         service: config.service,
         lane: config.lane,
+        env: config.env,
+        deployEnv: config.deployEnv,
         fromDevId: config.fromDevId,
         serviceType: config.serviceType,
         title: config.title,
