@@ -44,9 +44,9 @@ graph TD
 
 #### Direct Execution
 1. Confirm requirements and acceptance criteria
-2. Write tests (at minimum, verify core path)
+2. Prefer lightweight verification only: ESLint/LSP diagnostics and TypeScript checks
 3. Implement code
-4. Quick verification after tests pass
+4. Quick verification after lint/type checks pass
 
 #### Lightweight Mode
 1. **Deep analysis with Sequential Thinking**:
@@ -59,8 +59,7 @@ graph TD
 4. **Step-by-step implementation**:
    - Pre-execution check (verify input contract, environment, dependencies)
    - Implement core logic
-   - Write unit tests (boundary conditions, edge cases)
-   - Run verification tests
+   - Run targeted ESLint/LSP diagnostics and TypeScript checks
    - Update related documentation
    - Verify immediately after each task completion
 
@@ -68,7 +67,8 @@ graph TD
    - [ ] All TodoWrite tasks completed
    - [ ] Code follows project conventions
    - [ ] No new `//DEBT:` markers
-   - [ ] All tests pass
+   - [ ] ESLint/LSP diagnostics are clean
+   - [ ] TypeScript diagnostics are clean
    - [ ] All acceptance criteria met
    - [ ] Related documentation updated
 
@@ -145,6 +145,9 @@ The repository does not use a global build system. Agents should use standalone 
 - Running Python scripts: `python skills/{skill}/scripts/{script}.py [args]`
 - Validating Python syntax: `python -m py_compile skills/{skill}/scripts/{script}.py`
 - Linting/Formatting: Use standard LSP diagnostics via `lsp_diagnostics`.
+- Type checking: Prefer TypeScript/LSP diagnostics and targeted typecheck commands only.
+- Default verification policy: Do not run full builds or full test suites for code-writing tasks unless the user explicitly asks.
+- Avoid repository-wide heavy commands such as `build`, `test`, `test:all`, or similar by default.
 - Git operations: Use `xcommit` for atomic commits with automatic error fixing.
 - Manual verification: Execute scripts directly and inspect stdout/stderr.
 - No global test framework: Test scripts individually using representative samples.
@@ -196,6 +199,7 @@ Follow these patterns for consistency and reliability in agent-generated code.
 
 ## Important Notes
 - No tests required: Focus on standalone reliability and manual verification.
+- For code-writing tasks, default verification is limited to ESLint/LSP diagnostics and TypeScript checks unless the user explicitly requests broader validation.
 - Context is a public good: Minimize token usage in instructions and references.
 - Standalone scripts: Ensure scripts are self-contained or use relative imports.
 - No emojis: Maintain a professional, concise tone without decorative elements.

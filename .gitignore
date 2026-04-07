@@ -8,5 +8,8 @@ antigravity-logs/
 .sisyphus/
 log
 .playwright-cli
+.playwright-mcp
+playwright-auth/.auth/
+.claude/*.local.md
 .gitignore
 antigravity-accounts.json.*.tmp
