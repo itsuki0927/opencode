@@ -116,6 +116,15 @@
     }
   },
   "mcp": {
+    "chrome-devtools": {
+      "type": "local",
+      "command": ["npx", "-y", "chrome-devtools-mcp@latest"]
+    },
+    "agentation": {
+      "type": "local",
+      "command": ["npx", "-y", "agentation-mcp", "server"],
+      "enabled": true
+    },
     "tanstack": {
       "type": "remote",
       "url": "https://tanstack.com/api/mcp",
@@ -131,9 +140,9 @@
     },
     "figma": {
       "type": "remote",
-      "url": "https://mcp.figma.com/mcp",
+      "url": "http://127.0.0.1:3845/mcp",
       "oauth": {},
-      "enabled": false
+      "enabled": true
     },
     "emo": {
       "type": "local",
