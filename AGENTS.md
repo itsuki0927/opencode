@@ -1,5 +1,12 @@
 # AGENTS.md - OpenCode Configuration Repository
 
+Terse like caveman. Technical substance exact. Only fluff die.
+Drop: articles, filler (just/really/basically), pleasantries, hedging.
+Fragments OK. Short synonyms. Code unchanged.
+Pattern: [thing] [action] [reason]. [next step].
+ACTIVE EVERY RESPONSE. No revert after many turns. No filler drift.
+Code/commits/PRs: normal. Off: "stop caveman" / "normal mode".
+
 ## Workflow Decision Framework
 
 Before starting any task, determine the appropriate execution mode based on complexity.
@@ -31,24 +38,26 @@ graph TD
 
 ### Mode Comparison Table
 
-| Dimension | Direct Execution | Lightweight Mode | Full Mode |
-|-----------|------------------|------------------|-----------|
-| **Code Changes** | <100 lines | 2-5 files | Multi-module |
-| **Requirement Clarity** | 100% clear | 1-2 uncertainties | 3+ unknowns |
-| **Architecture Impact** | None | Minor adjustments | Major changes |
-| **Time Estimate** | <30 minutes | Half day to 2 days | 2+ days |
-| **Documentation** | None | DESIGN.md | Full 6A docs |
-| **Required Tools** | None mandatory | TodoWrite | Full toolchain |
+| Dimension               | Direct Execution | Lightweight Mode   | Full Mode      |
+| ----------------------- | ---------------- | ------------------ | -------------- |
+| **Code Changes**        | <100 lines       | 2-5 files          | Multi-module   |
+| **Requirement Clarity** | 100% clear       | 1-2 uncertainties  | 3+ unknowns    |
+| **Architecture Impact** | None             | Minor adjustments  | Major changes  |
+| **Time Estimate**       | <30 minutes      | Half day to 2 days | 2+ days        |
+| **Documentation**       | None             | DESIGN.md          | Full 6A docs   |
+| **Required Tools**      | None mandatory   | TodoWrite          | Full toolchain |
 
 ### Mode Execution Details
 
 #### Direct Execution
+
 1. Confirm requirements and acceptance criteria
 2. Prefer lightweight verification only: ESLint/LSP diagnostics and TypeScript checks
 3. Implement code
 4. Quick verification after lint/type checks pass
 
 #### Lightweight Mode
+
 1. **Deep analysis with Sequential Thinking**:
    - Validate requirement understanding
    - Identify potential ambiguities (1-2)
@@ -73,6 +82,7 @@ graph TD
    - [ ] Related documentation updated
 
 #### Full Mode
+
 Execute complete 6A Workflow (see 6A.md)
 
 ### Dynamic Upgrade Rules
@@ -80,17 +90,20 @@ Execute complete 6A Workflow (see 6A.md)
 Upgrade mode immediately when discovering these conditions:
 
 **Direct Execution -> Lightweight Mode**:
+
 - Need to modify 3+ files
 - Conflict with existing architecture
 - Need to clarify requirement boundaries
 
 **Lightweight Mode -> Full Mode**:
+
 - Need to change database schema
 - Security/compliance risks identified
 - Complex task dependencies (circular/parallel conflicts)
 - Multi-system integration required
 
 **Upgrade Procedure**:
+
 1. Pause current execution
 2. Inform user: "Detected [specific reason], recommend upgrading from [current] to [target] mode"
 3. Wait for confirmation
@@ -101,12 +114,14 @@ Upgrade mode immediately when discovering these conditions:
 ## Code Development Principles
 
 ### Design Philosophy
+
 - **Moderate Design**: Reserve capacity based on business change frequency (typically 1.2-2x)
 - **Reasonable Abstraction**: Consider abstracting after logic appears 3 times; evaluate abstraction benefits first
 - **Patches Are Debt**: Handle edge cases through unified models; temporary if/else must be marked `//DEBT:`
 - **Readability First**: Code is written for humans to read, machines to execute second
 
 ### Quality Requirements
+
 - Strictly follow project's existing code conventions
 - Maintain consistency with existing code style
 - Use project's existing tools and libraries
@@ -117,19 +132,21 @@ Upgrade mode immediately when discovering these conditions:
 
 ## Tool Usage Guidelines
 
-| Tool | Purpose | When to Use |
-|------|---------|-------------|
-| **TodoWrite** | Task tracking | Multi-file changes, multi-step tasks, real-time progress tracking |
-| **Sequential Thinking** | Decision analysis | 3+ uncertainties, multiple viable solutions need weighing, complex system analysis |
-| **Context7** | Technical reference | Latest API docs, framework-specific features, new technologies, best practices |
-| **Playwright** | UI automation | Browser-level interaction verification, visual testing |
-| **lsp_diagnostics** | Linting/Formatting | Standard LSP diagnostics for code quality |
-| **xcommit** | Git operations | Atomic commits with automatic error fixing |
+| Tool                    | Purpose             | When to Use                                                                        |
+| ----------------------- | ------------------- | ---------------------------------------------------------------------------------- |
+| **TodoWrite**           | Task tracking       | Multi-file changes, multi-step tasks, real-time progress tracking                  |
+| **Sequential Thinking** | Decision analysis   | 3+ uncertainties, multiple viable solutions need weighing, complex system analysis |
+| **Context7**            | Technical reference | Latest API docs, framework-specific features, new technologies, best practices     |
+| **Playwright**          | UI automation       | Browser-level interaction verification, visual testing                             |
+| **lsp_diagnostics**     | Linting/Formatting  | Standard LSP diagnostics for code quality                                          |
+| **xcommit**             | Git operations      | Atomic commits with automatic error fixing                                         |
 
 ---
 
 ## Repository Structure
+
 This repository contains configuration, skills, and commands for OpenCode agentic workflows.
+
 - `opencode.json`: Core configuration for providers, models, and MCP servers.
 - `oh-my-opencode.json`: Agent-specific model assignments and global settings.
 - `skills/`: Modular packages extending agent capabilities with specialized logic.
@@ -141,7 +158,9 @@ This repository contains configuration, skills, and commands for OpenCode agenti
 - `.sisyphus/`: Internal state and notepads for the Sisyphus execution engine.
 
 ## Build/Lint/Test Commands
+
 The repository does not use a global build system. Agents should use standalone tools.
+
 - Running Python scripts: `python skills/{skill}/scripts/{script}.py [args]`
 - Validating Python syntax: `python -m py_compile skills/{skill}/scripts/{script}.py`
 - Linting/Formatting: Use standard LSP diagnostics via `lsp_diagnostics`.
@@ -153,8 +172,11 @@ The repository does not use a global build system. Agents should use standalone 
 - No global test framework: Test scripts individually using representative samples.
 
 ## Code Style Guidelines
+
 ### Python Scripts
+
 Follow these patterns for consistency and reliability in agent-generated code.
+
 - Imports: Order as standard library → third-party packages → local modules.
 - Type hints: Required for all function signatures and class attributes.
 - Docstrings: Use triple quotes (""") for modules, classes, and public functions.
@@ -165,16 +187,19 @@ Follow these patterns for consistency and reliability in agent-generated code.
 - Data structures: Prefer `dataclasses` for structured data containers.
 
 ### JavaScript (Limited Use)
+
 - Syntax: Use ES6+ features (arrow functions, destructuring, template literals).
 - Contexts: Primarily used for `html2pptx` logic or `p5.js` algorithmic art templates.
 
 ### Markdown (SKILL.md)
+
 - Frontmatter: Must include `name` and `description` in YAML format.
 - Description: Must be comprehensive as it serves as the primary triggering mechanism.
 - Progressive disclosure: Keep `SKILL.md` lean; move details to `references/` files.
 - Tone: Use imperative or infinitive form for instructions.
 
 ## Skill Development Guidelines
+
 - Initialization: Use `python scripts/init_skill.py <name>` to create the structure.
 - Determinism: Move repetitive or fragile logic into scripts instead of raw prompts.
 - Context efficiency: Only include information that an AI agent cannot derive.
@@ -183,21 +208,25 @@ Follow these patterns for consistency and reliability in agent-generated code.
 - Iteration: Refine skills based on performance in real-world tasks.
 
 ## Configuration Files
+
 - `opencode.json`: Defines the `$schema`, active plugins, and provider model limits.
 - `oh-my-opencode.json`: Maps agent roles (e.g., sisyphus, librarian) to specific models.
 - `commands/*.md`: Defines slash commands using Markdown with YAML descriptions.
 
 ## Common Patterns
+
 - JSON processing: Use `json.load()` and `json.dump()` with proper error handling.
 - Path resolution: Use `Path(__file__).parent` to locate bundled resources.
 - Actionable output: Scripts should print clear SUCCESS/FAILURE messages for agents.
 
 ## Git Workflow
+
 - Use `xcommit` for all commits.
 - Ensure atomic changes per commit.
 - Follow the repository's commit message style.
 
 ## Important Notes
+
 - No tests required: Focus on standalone reliability and manual verification.
 - For code-writing tasks, default verification is limited to ESLint/LSP diagnostics and TypeScript checks unless the user explicitly requests broader validation.
 - Context is a public good: Minimize token usage in instructions and references.
@@ -205,7 +234,9 @@ Follow these patterns for consistency and reliability in agent-generated code.
 - No emojis: Maintain a professional, concise tone without decorative elements.
 
 ### Detailed Python Style Examples
+
 #### Import Order
+
 ```python
 import json
 import sys
@@ -218,6 +249,7 @@ from .utilities import XMLEditor
 ```
 
 #### Type Hints and Dataclasses
+
 ```python
 @dataclass
 class RectAndField:
@@ -227,6 +259,7 @@ class RectAndField:
 ```
 
 #### CLI Script Structure
+
 ```python
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -237,7 +270,9 @@ if __name__ == "__main__":
 ```
 
 ### Detailed Skill Structure
+
 #### SKILL.md Frontmatter
+
 ```yaml
 ---
 name: skill-name
@@ -246,26 +281,32 @@ description: Comprehensive description of what the skill does and when to use it
 ```
 
 #### Directory Layout
+
 - `scripts/`: `rotate_pdf.py`, `validate_schema.py`
 - `references/`: `api_docs.md`, `schemas.json`
 - `assets/`: `logo.png`, `template.docx`
 
 ### Progressive Disclosure Patterns
+
 - **Pattern 1**: High-level guide in `SKILL.md` with links to `references/`.
 - **Pattern 2**: Domain-specific organization (e.g., `references/aws.md`, `references/gcp.md`).
 - **Pattern 3**: Conditional details (e.g., "For tracked changes, see REDLINING.md").
 
 ### JSON Configuration Reference
+
 #### opencode.json
+
 - `plugin`: List of active plugins.
 - `provider`: Model definitions and limits.
 - `mcp`: Remote or local MCP server configurations.
 
 #### oh-my-opencode.json
+
 - `agents`: Mapping of agent roles to specific models.
 - `google_auth`: Boolean flag for Google authentication.
 
 ### Final Reminders
+
 - Keep `SKILL.md` under 500 lines.
 - Use `pathlib.Path` for all file operations.
 - Test scripts by running them before packaging.
@@ -280,15 +321,17 @@ description: Comprehensive description of what the skill does and when to use it
 When users ask you to perform tasks, check if any of the available skills below can help complete the task more effectively. Skills provide specialized capabilities and domain knowledge.
 
 How to use skills:
+
 - Invoke: Bash("openskills read <skill-name>")
 - The skill content will load with detailed instructions on how to complete the task
 - Base directory provided in output for resolving bundled resources (references/, scripts/, assets/)
 
 Usage notes:
+
 - Only use skills listed in <available_skills> below
 - Do not invoke a skill that is already loaded in your context
 - Each skill invocation is stateless
-</usage>
+  </usage>
 
 <available_skills>
 
@@ -395,6 +438,7 @@ Usage notes:
 </skill>
 
 </available_skills>
+
 <!-- SKILLS_TABLE_END -->
 
 </skills_system>
