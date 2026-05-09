@@ -1,6 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "plugin": [
+    "oh-my-openagent@latest",
     "opencode-wakatime",
     "opencode-antigravity-auth@latest",
     "opencode-antigravity-quota@latest"
@@ -134,7 +135,7 @@
     "agentation": {
       "type": "local",
       "command": ["npx", "-y", "agentation-mcp", "server"],
-      "enabled": true
+      "enabled": false
     },
     "tanstack": {
       "type": "remote",
@@ -164,25 +165,6 @@
         "-y",
         "@byted/emo-mcp-server@latest"
       ]
-    },
-    "bytedance-mcp-bitsai_quoraid": {
-      "type": "local",
-      "command": [
-        "npx",
-        "--registry",
-        "https://bnpm.byted.org",
-        "-y",
-        "--no-package-lock",
-        "@byted/mcp-proxy@latest"
-      ],
-      "environment": {
-        "MCP_SERVER_PSM": "bytedance.mcp.bitsai_quoraid",
-        "MCP_GATEWAY_REGION": "CN",
-        "MCP_REQUEST_TIMEOUT_MS": "600000",
-        "RUN_MCP_TIMEOUT_MS": "600000"
-      },
-      "enabled": true,
-      "timeout": 10000
     }
   }
 }
