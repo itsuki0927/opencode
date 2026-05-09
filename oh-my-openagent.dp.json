@@ -1,0 +1,69 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
+  "google_auth": false,
+  "agents": {
+    "sisyphus": {
+      "model": "deepseek/deepseek-v4-pro"
+    },
+    "oracle": {
+      "model": "openai/gpt-5.4-mini-fast"
+    },
+    "explore": {
+      "model": "openai/gpt-5.4-mini-fast"
+    },
+    "librarian": {
+      "model": "openai/gpt-5.4-mini-fast"
+    },
+    "frontend-ui-ux-engineer": {
+      "model": "openai/gpt-5.4-mini-fast"
+    },
+    "metis": {
+      "model": "openai/gpt-5.5"
+    },
+    "momus": {
+      "model": "openai/gpt-5.5"
+    },
+    "atlas": {
+      "model": "openai/gpt-5.5"
+    },
+    "prometheus": {
+      "model": "deepseek/deepseek-v4-pro"
+    }
+  },
+  "tmux": {
+    "enabled": true,
+    "layout": "main-vertical",
+    "main_pane_size": 60,
+    "main_pane_min_width": 120,
+    "agent_pane_min_width": 40
+  },
+  "experimental": {
+    "auto_resume": true
+  },
+  "categories": {
+    "visual-engineering": {
+      "model": "deepseek/deepseek-v4-flash"
+    },
+    "ultrabrain": {
+      "model": "openai/gpt-5.4-mini-fast"
+    },
+    "artistry": {
+      "model": "openai/gpt-5.4-mini-fast"
+    },
+    "deep": {
+      "model": "deepseek/deepseek-v4-pro"
+    },
+    "quick": {
+      "model": "openai/gpt-5.4-mini-fast"
+    },
+    "unspecified-low": {
+      "model": "deepseek/deepseek-v4-pro"
+    },
+    "unspecified-high": {
+      "model": "deepseek/deepseek-v4-pro"
+    },
+    "writing": {
+      "model": "openai/gpt-5.4-mini-fast"
+    }
+  }
+}
