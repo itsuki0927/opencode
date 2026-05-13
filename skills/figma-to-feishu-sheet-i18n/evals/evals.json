@@ -1,0 +1,23 @@
+{
+  "skill_name": "figma-to-feishu-sheet-i18n",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "把这个 Figma 登录页里的文案整理成飞书电子表格，key 用 page_module_item，截图放到 screenshots 列，并在完成后飞书通知我。",
+      "expected_output": "Creates a Feishu spreadsheet with login copy rows, semantic keys, nearest-container screenshots, and a notification message.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我选中的是一个发布弹窗。帮我从 Figma 导出所有用户可见文案到飞书 sheet，带 usage screenshot，返回链接。",
+      "expected_output": "Exports modal copy into a Feishu spreadsheet, using modal or field-level containers for screenshots and returns the final link.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "这个空态页面需要做 i18n。把设计稿里的标题、描述、按钮文案整理成飞书电子表格，截图不要整页，尽量截到最近容器。",
+      "expected_output": "Exports empty-state strings into a Feishu spreadsheet with semantic keys and nearby container screenshots rather than whole-page screenshots.",
+      "files": []
+    }
+  ]
+}
