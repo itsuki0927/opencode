@@ -1,0 +1,33 @@
+{
+  "skill_name": "smartq-deploy-quality",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "check-quality-status-running",
+      "prompt": "帮我检查 TCE 工单 18605014 的质检状态，发现异常检测项或者质检任务结束了告诉我",
+      "expected_output": "轮询 /deploy/tce/guard_info 接口直到 guard_status=finish 或 skipped，输出质检摘要（包含质检任务ID、PSM、guard_result等），如果有异常检测项（guard_result为warning/fail/error）则查询guard_detail获取详情并提供排查建议",
+      "files": []
+    },
+    {
+      "id": 2,
+      "eval_name": "check-and-proceed-pass",
+      "prompt": "帮我检查发布单18605014的质检状态，如果没有异常，询问我是否直接推进发布流程到下一阶段；如果有异常，提示我如何排查异常",
+      "expected_output": "轮询guard_info接口，guard_result=pass时询问是否推进，guard_result=warning/fail/error时查询guard_detail列出异常项和排查建议",
+      "files": []
+    },
+    {
+      "id": 3,
+      "eval_name": "continue-next-stage",
+      "prompt": "继续发布下一阶段",
+      "expected_output": "询问工单号（如无上下文），轮询质检状态，完成后询问确认，然后调用step_check_jump（使用质检任务ID而非工单号）推进流水线",
+      "files": []
+    },
+    {
+      "id": 4,
+      "eval_name": "check-quality-with-abnormal",
+      "prompt": "看一下工单18501912的质检结果，有没有异常",
+      "expected_output": "查询guard_info接口，如guard_result不为pass，查询guard_detail获取详细检测项，列出所有warning/fail的检测项及其报告链接",
+      "files": []
+    }
+  ]
+}

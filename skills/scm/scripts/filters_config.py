@@ -1,0 +1,58 @@
+VERSION_ALWAYS_KEEP_KEYS = {
+    "id",
+    "version",
+    "repos",
+    "repo_name",
+    "type",
+    "create_user",
+    "create_date",
+    "desc",
+    "git_url",
+    "commit_url",
+    "base_commit_hash",
+    "branch_name",
+    "pub_base",
+    "change_id",
+    "git_tag",
+    "tags",
+    "origin",
+    "user_envs",
+    "scm_envs",
+    "security_info",
+    "tasks",
+    "runtime_type",
+    "bin_path",
+    "always",
+    "builds",
+}
+
+VERSION_HIDDEN_PREFIXES = ("file_url", "file_md5_url", "src_download_url")
+
+VERSION_DROP_KEYS = (
+    "build_info",
+    "build_status",
+    "build_error",
+    "build_url",
+    "failed_step",
+    "failed_step_aarch64",
+)
+
+REPO_HIDDEN_KEYS = {
+    "parallel_concurrent",
+    "proxy_switch",
+    "favor_users",
+    "autojump",
+    "is_public",
+    "is_build_tool",
+    "running_timeout",
+    "wait_timeout",
+    "merged_branches",
+    "merged_branches_aarch64",
+    "tag_trigger",
+    "has_preonline",
+    "has_preonline_aarch64",
+    "preonline_job_name",
+    "notify_bot_tokens",
+    "bot_notification_level",
+    "is_favor",
+}
