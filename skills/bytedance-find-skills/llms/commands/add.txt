@@ -145,9 +145,11 @@ Fetching my-skill...
 Found: my-skill v1.0.0 (local)
 Installing to cursor, claude-code...
   cursor: /project/.cursor/skills/my-skill
-  claude-code: /project/.claude/skills/my-skill
+  claude-code: ~/.config/opencode/skills/my-skill
 Installed: my-skill (2 agents)
 ```
+
+Local OpenCode convention: when installing for this repo, use `~/.config/opencode/skills/my-skill` as the canonical destination. Keep legacy external agent roots as symlinks to avoid split copies.
 
 **With symlink (soft mode):**
 ```

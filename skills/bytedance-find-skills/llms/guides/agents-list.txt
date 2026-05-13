@@ -8,6 +8,8 @@ source: "/llms/guides/agents-list.txt"
 
 The @tiktok-fe/skills CLI supports 30+ AI coding assistants. Skills are automatically installed to all detected agents.
 
+Local OpenCode convention: keep the canonical skill store at `~/.config/opencode/skills`. Legacy external agent roots are symlinks to that directory, so avoid creating separate physical skill roots.
+
 ## Agent Detection
 
 The CLI detects installed agents by checking for their configuration directories on the local machine. When you install a skill, it's copied (or symlinked in soft mode) to all detected agent directories.
@@ -19,7 +21,7 @@ Use `ai-skills agents --pure` to list all agents and their installation status.
 | Agent ID | Display Name | Project Directory | Global Directory |
 |----------|--------------|-------------------|------------------|
 | cursor | Cursor | `.cursor/skills` | `~/.cursor/skills` |
-| claude-code | Claude Code | `.claude/skills` | `~/.claude/skills` |
+| claude-code | Claude Code | `~/.config/opencode/skills` (canonical) | `~/.config/opencode/skills` |
 | github-copilot | GitHub Copilot | `.github/skills` | `~/.copilot/skills` |
 | windsurf | Windsurf | `.windsurf/skills` | `~/.codeium/windsurf/skills` |
 | cline | Cline | `.cline/skills` | `~/.cline/skills` |
@@ -27,7 +29,7 @@ Use `ai-skills agents --pure` to list all agents and their installation status.
 | codex | OpenAI Codex CLI | `.codex/skills` | `~/.codex/skills` |
 | gemini-cli | Gemini CLI | `.gemini/skills` | `~/.gemini/skills` |
 | goose | Goose | `.goose/skills` | `~/.config/goose/skills` |
-| amp | Amp | `.agents/skills` | `~/.config/agents/skills` |
+| amp | Amp | `~/.config/opencode/skills` (canonical) | `~/.config/opencode/skills` |
 | junie | Junie | `.junie/skills` | `~/.junie/skills` |
 | kilo | Kilo Code | `.kilocode/skills` | `~/.kilocode/skills` |
 | roo | Roo Code | `.roo/skills` | `~/.roo/skills` |
@@ -57,7 +59,7 @@ Skills installed at project level are available only within that project:
 
 ```bash
 ai-skills add my-skill --source local --project --pure
-# Installs to: .cursor/skills/my-skill, .claude/skills/my-skill, etc.
+# Generic CLI installs to agent-specific roots. In this OpenCode setup, use ~/.config/opencode/skills/my-skill as the canonical location.
 ```
 
 ### Global-Level
@@ -66,7 +68,7 @@ Skills installed globally are available across all projects:
 
 ```bash
 ai-skills add my-skill --source local --global --pure
-# Installs to: ~/.cursor/skills/my-skill, ~/.claude/skills/my-skill, etc.
+# Generic CLI installs to global agent roots. In this OpenCode setup, legacy external roots point to ~/.config/opencode/skills.
 ```
 
 ### Custom Directory
@@ -120,7 +122,7 @@ Unrecognized agent names produce a warning but don't block the operation.
 Each agent reads skills from their designated directory:
 
 1. **Cursor**: Reads `.cursor/skills/*/SKILL.md` and includes in AI context
-2. **Claude Code**: Reads `.claude/skills/*/SKILL.md` as system instructions
+2. **Claude Code**: Reads `~/.config/opencode/skills/*/SKILL.md` through this OpenCode setup
 3. **GitHub Copilot**: Reads `.github/skills/*/SKILL.md` for context
 4. **Other agents**: Similar pattern using their respective directories
 

@@ -102,10 +102,12 @@ Source resolution logic (from `resolveSource` tests):
 
 Skills can be installed in different scopes:
 
+Local OpenCode convention: use `~/.config/opencode/skills` as the single canonical skill store. Legacy external agent roots should remain symlinks to that directory, not independent roots.
+
 | Scope | Flag | Location | Description |
 |-------|------|----------|-------------|
-| Project | `-p, --project` | `.cursor/skills/`, `.claude/skills/`, etc. | Project-specific (default) |
-| Global | `-g, --global` | `~/.cursor/skills/`, `~/.claude/skills/`, etc. | Available across all projects |
+| Project | `-p, --project` | Agent-specific project roots; use `~/.config/opencode/skills` here | Project-specific (default) |
+| Global | `-g, --global` | Agent-specific global roots; symlink to `~/.config/opencode/skills` here | Available across all projects |
 | Custom | `-t, --target <dir>` | Custom directory | User-specified base directory |
 | Direct | `--dir <dir>` | Exact directory | Files go directly to this dir, no agent subdirs |
 
