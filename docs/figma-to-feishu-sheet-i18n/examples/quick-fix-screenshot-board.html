@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>quick-fix screenshot board</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "TikTok Sans Text", Inter, system-ui, -apple-system, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #f4f5f7;
+        color: #121415;
+        padding: 32px;
+      }
+
+      main {
+        display: grid;
+        gap: 24px;
+        max-width: 1160px;
+        margin: 0 auto;
+      }
+
+      .row {
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+        padding: 20px;
+      }
+
+      .hero {
+        width: 498px;
+      }
+
+      .title {
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 500;
+        margin: 0 0 4px;
+      }
+
+      .desc {
+        font-size: 12px;
+        line-height: 16px;
+        color: #6d6e70;
+        margin: 0;
+      }
+
+      .row-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+
+      .media-card {
+        width: 96px;
+        height: 96px;
+        border: 1px solid #ececed;
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+        background: #fff;
+      }
+
+      .media-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .tag {
+        position: absolute;
+        left: 8px;
+        bottom: 8px;
+        background: rgba(38, 38, 39, 0.7);
+        color: #fff;
+        border-radius: 4px;
+        padding: 2px 6px;
+        font-size: 10px;
+        line-height: 12px;
+        font-weight: 500;
+      }
+
+      .card-row {
+        display: flex;
+        gap: 8px;
+      }
+
+      .guidance {
+        display: flex;
+        gap: 10px;
+        max-width: 280px;
+        align-items: flex-start;
+      }
+
+      .icon-ok,
+      .icon-warn {
+        width: 16px;
+        height: 16px;
+        flex: 0 0 16px;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        line-height: 1;
+        font-weight: 700;
+      }
+
+      .icon-ok {
+        color: #fff;
+        background: #34c759;
+      }
+
+      .icon-warn {
+        color: #fff;
+        background: #ff6b57;
+      }
+
+      .guidance-block {
+        display: grid;
+        gap: 10px;
+      }
+
+      .divider {
+        width: 1px;
+        background: #d3d4d5;
+      }
+
+      .full-section {
+        display: flex;
+        gap: 32px;
+        width: 466px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="row hero" aria-label="upload popover screenshot" tabindex="0">
+        <p class="title">Upload images</p>
+        <p class="desc">Upload up to 9 images (JPG/PNG/WEBP).</p>
+      </section>
+
+      <section class="row" aria-label="image one screenshot" tabindex="0">
+        <div class="media-card">
+          <img src="http://localhost:3845/assets/d98bef6795399bdb991816b396ae3b2c78ff975e.png" alt="image 1" />
+          <span class="tag">image 1</span>
+        </div>
+      </section>
+
+      <section class="row" aria-label="image two screenshot" tabindex="0">
+        <div class="media-card">
+          <img src="http://localhost:3845/assets/2d0a99b82cab4642778160d0f10239cfd3b089d2.png" alt="image 2" />
+          <span class="tag">image 2</span>
+        </div>
+      </section>
+
+      <section class="row" aria-label="do guidance screenshot" tabindex="0">
+        <div class="guidance-block">
+          <div class="card-row">
+            <div class="media-card"><img src="http://localhost:3845/assets/d98bef6795399bdb991816b396ae3b2c78ff975e.png" alt="good example 1" /></div>
+            <div class="media-card"><img src="http://localhost:3845/assets/2d0a99b82cab4642778160d0f10239cfd3b089d2.png" alt="good example 2" /></div>
+          </div>
+          <div class="guidance">
+            <div class="icon-ok">✓</div>
+            <p class="desc">Use diverse product images: full product shots, multiple angles, or real-world use cases.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="row" aria-label="dont guidance screenshot" tabindex="0">
+        <div class="guidance-block">
+          <div class="card-row">
+            <div class="media-card"><img src="http://localhost:3845/assets/f581472b19eaac00581e26435f99b715b38e0ba6.png" alt="bad example 1" /></div>
+            <div class="media-card"><img src="http://localhost:3845/assets/9401a37d33a1b0a42dfd68d2361539abc51d4bcb.png" alt="bad example 2" /></div>
+          </div>
+          <div class="guidance">
+            <div class="icon-warn">!</div>
+            <p class="desc">Avoid human faces or background with busy text.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="row" aria-label="full section screenshot" tabindex="0">
+        <div class="full-section">
+          <div class="guidance-block">
+            <div class="card-row">
+              <div class="media-card"><img src="http://localhost:3845/assets/d98bef6795399bdb991816b396ae3b2c78ff975e.png" alt="good example 1" /></div>
+              <div class="media-card"><img src="http://localhost:3845/assets/2d0a99b82cab4642778160d0f10239cfd3b089d2.png" alt="good example 2" /></div>
+            </div>
+            <div class="guidance">
+              <div class="icon-ok">✓</div>
+              <p class="desc">Use diverse product images: full product shots, multiple angles, or real-world use cases.</p>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="guidance-block">
+            <div class="card-row">
+              <div class="media-card"><img src="http://localhost:3845/assets/f581472b19eaac00581e26435f99b715b38e0ba6.png" alt="bad example 1" /></div>
+              <div class="media-card"><img src="http://localhost:3845/assets/9401a37d33a1b0a42dfd68d2361539abc51d4bcb.png" alt="bad example 2" /></div>
+            </div>
+            <div class="guidance">
+              <div class="icon-warn">!</div>
+              <p class="desc">Avoid human faces or background with busy text.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
