@@ -1,0 +1,61 @@
+[
+  [
+    "namespace: "
+  ],
+  [
+    "keys",
+    "screenshots",
+    "tag",
+    "length limit",
+    "Context",
+    "Source"
+  ],
+  [
+    "upload_images_popover_title",
+    "",
+    "",
+    "",
+    "page=upload_images; module=popover; role=title; text=Upload images",
+    "Upload images"
+  ],
+  [
+    "upload_images_popover_description",
+    "",
+    "",
+    "",
+    "page=upload_images; module=popover; role=description; text=Upload up to 9 images (JPG/PNG/WEBP).",
+    "Upload up to 9 images (JPG/PNG/WEBP)."
+  ],
+  [
+    "upload_images_example_label",
+    "",
+    "",
+    "",
+    "page=upload_images; module=example; role=label; text=image 1",
+    "image 1"
+  ],
+  [
+    "upload_images_example_label_2",
+    "",
+    "",
+    "",
+    "page=upload_images; module=example; role=label; text=image 2",
+    "image 2"
+  ],
+  [
+    "upload_images_do_description",
+    "",
+    "",
+    "",
+    "page=upload_images; module=do; role=description; text=Use diverse product images: full product shots, multiple angles, or real-world use cases.",
+    "Use diverse product images: full product shots, multiple angles, or real-world use cases."
+  ],
+  [
+    "upload_images_dont_description",
+    "",
+    "",
+    "",
+    "page=upload_images; module=dont; role=description; text=Avoid human faces or background with busy text.",
+    "Avoid human faces or background with busy text."
+  ]
+]

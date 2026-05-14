@@ -1,0 +1,62 @@
+[
+  {
+    "source_text": "Upload images",
+    "page": "quick_fix",
+    "module": "upload_images_popover",
+    "role": "title",
+    "node_name": "KsLabel",
+    "screenshot_node_id": "17:8790",
+    "screenshot_path": "",
+    "key": "upload_images_popover_title"
+  },
+  {
+    "source_text": "Upload up to 9 images (JPG/PNG/WEBP).",
+    "page": "quick_fix",
+    "module": "upload_images_popover",
+    "role": "description",
+    "node_name": "helper text",
+    "screenshot_node_id": "17:8790",
+    "screenshot_path": "",
+    "key": "upload_images_popover_description"
+  },
+  {
+    "source_text": "image 1",
+    "page": "quick_fix",
+    "module": "upload_images_example",
+    "role": "label",
+    "node_name": "asset tag",
+    "screenshot_node_id": "17:8798",
+    "screenshot_path": "",
+    "key": "upload_images_example_label"
+  },
+  {
+    "source_text": "image 2",
+    "page": "quick_fix",
+    "module": "upload_images_example",
+    "role": "label",
+    "node_name": "asset tag",
+    "screenshot_node_id": "17:8803",
+    "screenshot_path": "",
+    "key": "upload_images_example_label_2"
+  },
+  {
+    "source_text": "Use diverse product images: full product shots, multiple angles, or real-world use cases.",
+    "page": "quick_fix",
+    "module": "upload_images_do",
+    "role": "description",
+    "node_name": "guidance text",
+    "screenshot_node_id": "17:8808",
+    "screenshot_path": "",
+    "key": "upload_images_do_description"
+  },
+  {
+    "source_text": "Avoid human faces or background with busy text.",
+    "page": "quick_fix",
+    "module": "upload_images_dont",
+    "role": "description",
+    "node_name": "warning text",
+    "screenshot_node_id": "17:8824",
+    "screenshot_path": "",
+    "key": "upload_images_dont_description"
+  }
+]
