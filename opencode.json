@@ -4,7 +4,8 @@
     "oh-my-openagent@latest",
     "opencode-wakatime",
     "opencode-antigravity-auth@latest",
-    "opencode-antigravity-quota@latest"
+    "opencode-antigravity-quota@latest",
+    "file:///Users/bytedance/.config/opencode/plugins/flux-opencode-plugin.js"
   ],
   "provider": {
     "onlycode": {
@@ -128,6 +129,13 @@
     }
   },
   "mcp": {
+    "gitnexus": {
+      "type": "local",
+      "command": [
+        "/Users/bytedance/.nvm/versions/node/v22.14.0/bin/gitnexus",
+        "mcp"
+      ]
+    },
     "chrome-devtools": {
       "type": "local",
       "command": ["npx", "-y", "chrome-devtools-mcp@latest"]
