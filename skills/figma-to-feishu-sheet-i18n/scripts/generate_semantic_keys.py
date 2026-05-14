@@ -16,12 +16,82 @@ ROLE_KEYWORDS: list[tuple[str, list[str]]] = [
     ("title", []),
 ]
 
+WEAK_SEGMENTS = {
+    "copy",
+    "default",
+    "draft",
+    "fix",
+    "frame",
+    "group",
+    "module",
+    "page",
+    "quick",
+    "quick_fix",
+    "screen",
+    "section",
+    "text",
+    "untitled",
+}
+
+MODULE_SUFFIXES = {
+    "banner",
+    "card",
+    "dialog",
+    "do",
+    "dont",
+    "empty",
+    "example",
+    "field",
+    "footer",
+    "form",
+    "header",
+    "input",
+    "modal",
+    "panel",
+    "popover",
+    "section",
+    "sheet",
+    "state",
+    "tab",
+    "toast",
+    "tooltip",
+}
+
 
 def normalize_part(value: str, fallback: str) -> str:
     """Normalize a single key segment into snake_case."""
     normalized = re.sub(r"[^a-zA-Z0-9]+", "_", value.strip().lower())
     normalized = re.sub(r"_+", "_", normalized).strip("_")
     return normalized or fallback
+
+
+def is_weak_segment(value: str) -> bool:
+    """Return whether a key segment is too generic to help translators."""
+    return value in WEAK_SEGMENTS or value.startswith("quick_fix_")
+
+
+def split_module(module: str) -> tuple[str, str]:
+    """Split a meaningful module into page and module hints."""
+    parts = module.split("_")
+    if len(parts) < 2:
+        return module, "module"
+
+    if parts[-1] in MODULE_SUFFIXES:
+        return "_".join(parts[:-1]), parts[-1]
+
+    return parts[0], "_".join(parts[1:])
+
+
+def refine_page_module(page: str, module: str) -> tuple[str, str]:
+    """Replace weak page names with semantic hints from the module."""
+    if not is_weak_segment(page):
+        return page, module
+
+    inferred_page, inferred_module = split_module(module)
+    if is_weak_segment(inferred_page):
+        return page, module
+
+    return inferred_page, inferred_module
 
 
 def infer_item(row: dict[str, str]) -> str:
@@ -66,6 +136,7 @@ def generate_keys(rows: list[dict[str, str]]) -> list[dict[str, str]]:
     for row in rows:
         page = normalize_part(row.get("page", ""), "page")
         module = normalize_part(row.get("module", ""), "module")
+        page, module = refine_page_module(page, module)
         item = infer_item(row)
         key = f"{page}_{module}_{item}"
         source_text = row.get("source_text", "")

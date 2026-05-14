@@ -19,6 +19,12 @@ Use these signals in order:
 2. nearest meaningful container for `module`
 3. inferred text role for `item`
 
+If the page or frame name is a weak working label such as `quick_fix`, `draft`,
+`untitled`, `page`, or `frame`, do not preserve it as the key prefix. Infer the
+page segment from the nearest meaningful module instead. For example,
+`page=quick_fix; module=upload_images_popover` should produce
+`upload_images_popover_title`, not `quick_fix_upload_images_popover_title`.
+
 ## Sanitization
 
 - replace spaces and separators with `_`
