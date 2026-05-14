@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "teaAppId": "1013111",
+  "teaChannel": "cn",
+  "appNameForBits": "fluxisland",
+  "skill": "opencode",
+  "debug": false,
+  "flushTimeoutMs": 1500
+}
