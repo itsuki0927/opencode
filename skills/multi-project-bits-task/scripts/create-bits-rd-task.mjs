@@ -26,9 +26,11 @@ const PROJECT_PRESETS = {
 
 const DEFAULTS = {
   project: 'creativeCue',
+  meego: '7034929152',
   lane: 'test',
+  remote: 'origin',
   site: undefined,
-  env: 'cue_agent'
+  envPrefix: 'ppe_cue_'
 };
 
 const DEPLOY_ENV_PRESETS = {
@@ -90,18 +92,49 @@ function getEnvSettingMap(envKey) {
   };
 }
 
+function getDeveloperEnvName(developer) {
+  const localPart = developer.split('@')[0] ?? developer;
+  const withoutPlusSuffix = localPart.split('+')[0] ?? localPart;
+  const normalized = withoutPlusSuffix
+    .trim()
+    .toLowerCase()
+    .replace(/\d+$/u, '')
+    .replace(/[^a-z0-9]+/gu, '_')
+    .replace(/^_+|_+$/gu, '');
+
+  if (!normalized) {
+    throw new Error(`Failed to derive developer env from developer value: ${developer}. Use --env to override.`);
+  }
+
+  return `${DEFAULTS.envPrefix}${normalized}`;
+}
+
+function getResolvedEnvConfig(options, developer) {
+  if (options.envSpecified) {
+    return getEnvSettingMap(options.env);
+  }
+
+  const deployEnv = getDeveloperEnvName(developer);
+
+  return {
+    env: deployEnv,
+    deployEnv
+  };
+}
+
 function printUsage() {
   console.log(`Usage:
-  node /Users/bytedance/.config/opencode/skills/multi-project-bits-task/scripts/create-bits-rd-task.mjs <meego-or-url> [title-override] [--create]
+  node /Users/bytedance/.config/opencode/skills/multi-project-bits-task/scripts/create-bits-rd-task.mjs [meego-or-url] [title-override] [--create]
 
 Options:
   --project <value>       Project alias, default: ${DEFAULTS.project}
-  --meego <value>         Meego work item ID or URL (required if not using positional arg)
+  --meego <value>         Meego work item ID or URL, default: ${DEFAULTS.meego}
   --title <value>         Override title, default from latest git commit subject
   --branch <value>        Override branch, default from current git branch
+  --remote <value>        Git remote used for branch existence checks, default: ${DEFAULTS.remote}
   --developer <email>     Override developer email, default from git config user.email
   --lane <value>          Override lane, default: ${DEFAULTS.lane}
-  --env <value>           Environment alias or raw ppe_* env; maps to create lane, default: ${DEFAULTS.env}
+  --env <value>           Environment alias or raw ppe_* env; default: ${DEFAULTS.envPrefix}<developer-name>
   --from-dev-id <value>   Override template dev task ID, default from selected project preset
   --service <value>       Override service/project name, default from selected project preset
   --service-type <value>  Override service type, default from selected project preset
@@ -128,13 +161,15 @@ Note:
 function parseArgs(argv) {
   const options = {
     project: DEFAULTS.project,
-    meego: '',
+    meego: DEFAULTS.meego,
     title: '',
     branch: '',
+    remote: DEFAULTS.remote,
     developer: '',
     lane: DEFAULTS.lane,
     laneSpecified: false,
-    env: DEFAULTS.env,
+    env: '',
+    envSpecified: false,
     fromDevId: '',
     service: '',
     serviceType: '',
@@ -190,6 +225,9 @@ function parseArgs(argv) {
         case '--branch':
           options.branch = next;
           break;
+        case '--remote':
+          options.remote = next;
+          break;
         case '--developer':
           options.developer = next;
           break;
@@ -199,6 +237,7 @@ function parseArgs(argv) {
           break;
         case '--env':
           options.env = findEnvKey(next);
+          options.envSpecified = true;
           break;
         case '--from-dev-id':
           options.fromDevId = next;
@@ -223,7 +262,7 @@ function parseArgs(argv) {
     positional.push(arg);
   }
 
-  if (!options.meego && positional[0]) {
+  if (positional[0]) {
     options.meego = positional[0];
   }
 
@@ -247,6 +286,79 @@ function runGit(args, errorMessage) {
   return result.stdout.trim();
 }
 
+function runGitStatus(args) {
+  return spawnSync('git', args, {
+    cwd: process.cwd(),
+    encoding: 'utf8'
+  });
+}
+
+function formatGitError(result) {
+  return (result.stderr || result.stdout || '').trim();
+}
+
+function ensureRemoteBranch(config) {
+  const localBranch = runGit(['rev-parse', '--abbrev-ref', 'HEAD'], 'Failed to read current git branch for remote preflight.');
+
+  if (localBranch !== config.branch) {
+    return {
+      remote: config.remote,
+      branch: config.branch,
+      localBranch,
+      exists: undefined,
+      pushed: false,
+      skipped: true,
+      reason: 'resolved branch is not the checked-out branch; skipping auto-push'
+    };
+  }
+
+  const remoteCheck = runGitStatus(['ls-remote', '--exit-code', '--heads', config.remote, config.branch]);
+
+  if (remoteCheck.status === 0) {
+    return {
+      remote: config.remote,
+      branch: config.branch,
+      localBranch,
+      exists: true,
+      pushed: false,
+      skipped: false,
+      reason: 'remote branch already exists'
+    };
+  }
+
+  if (remoteCheck.status !== 2) {
+    throw new Error(`Failed to check remote branch ${config.remote}/${config.branch}.\n${formatGitError(remoteCheck)}`.trim());
+  }
+
+  if (config.dryRun) {
+    return {
+      remote: config.remote,
+      branch: config.branch,
+      localBranch,
+      exists: false,
+      pushed: false,
+      skipped: true,
+      reason: 'dry-run only; would push branch before real create'
+    };
+  }
+
+  const pushResult = runGitStatus(['push', '-u', config.remote, `${config.branch}:${config.branch}`]);
+
+  if (pushResult.status !== 0) {
+    throw new Error(`Remote branch ${config.remote}/${config.branch} does not exist, and auto-push failed.\n${formatGitError(pushResult)}`.trim());
+  }
+
+  return {
+    remote: config.remote,
+    branch: config.branch,
+    localBranch,
+    exists: false,
+    pushed: true,
+    skipped: false,
+    reason: 'remote branch was missing; pushed current branch before create'
+  };
+}
+
 function getResolvedConfig(options) {
   const preset = getProjectPreset(options.project);
   const branch = options.branch || runGit(['rev-parse', '--abbrev-ref', 'HEAD'], 'Failed to read current git branch.');
@@ -255,11 +367,11 @@ function getResolvedConfig(options) {
   const service = options.service || preset.service;
   const fromDevId = options.fromDevId || preset.fromDevId;
   const serviceType = options.serviceType || preset.serviceType;
-  const envConfig = getEnvSettingMap(options.env);
+  const envConfig = getResolvedEnvConfig(options, developer);
   const lane = options.laneSpecified ? options.lane : envConfig.deployEnv;
 
   if (!options.meego) {
-    throw new Error('Meego is required. Pass it as the first positional arg or with --meego.');
+    throw new Error('Resolved Meego is empty. Use --meego to override.');
   }
 
   if (!title) {
@@ -287,6 +399,7 @@ function getResolvedConfig(options) {
     meego: options.meego,
     title,
     branch,
+    remote: options.remote,
     developer,
     lane,
     env: envConfig.env,
@@ -365,7 +478,7 @@ function runBytedcli(config) {
   };
 }
 
-function printSummary(config, output) {
+function printSummary(config, output, branchPreflight) {
   const createdId = output.payload?.data?.created?.devBasicId ?? output.payload?.data?.raw?.data?.devBasicId;
   const status = output.payload?.status;
 
@@ -382,6 +495,8 @@ function printSummary(config, output) {
         serviceType: config.serviceType,
         title: config.title,
         branch: config.branch,
+        remote: config.remote,
+        branchPreflight,
         meego: config.meego,
         developer: config.developer,
         dryRun: config.dryRun,
@@ -420,8 +535,9 @@ function main() {
     }
 
     const config = getResolvedConfig(options);
+    const branchPreflight = ensureRemoteBranch(config);
     const output = runBytedcli(config);
-    printSummary(config, output);
+    printSummary(config, output, branchPreflight);
 
     if ((output.payload?.status ?? 'error') !== 'success') {
       process.exit(output.exitCode || 1);
