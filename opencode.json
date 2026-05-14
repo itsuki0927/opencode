@@ -5,7 +5,8 @@
     "opencode-wakatime",
     "opencode-antigravity-auth@latest",
     "opencode-antigravity-quota@latest",
-    "file:///Users/bytedance/.config/opencode/plugins/flux-opencode-plugin.js"
+    "file:///Users/bytedance/.config/opencode/plugins/flux-opencode-plugin.js",
+    "file:///Users/bytedance/.config/opencode/plugins/ai-code-report.plugin.js"
   ],
   "provider": {
     "onlycode": {
@@ -138,7 +139,7 @@
     },
     "chrome-devtools": {
       "type": "local",
-      "command": ["npx", "-y", "chrome-devtools-mcp@latest"]
+      "command": ["npx", "-y", "chrome-devtools-mcp@latest", "--autoConnect"]
     },
     "agentation": {
       "type": "local",
